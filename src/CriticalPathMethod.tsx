@@ -107,7 +107,7 @@ const GanttChart = () => {
     ];
 
     // Хук для смены режима отображения диаграммы (недели, дни и т.д.)
-    const [viewMode, setViewMode] = useState(ViewMode.Week);
+    const [viewMode, setViewMode] = useState(ViewMode.Day);
 
     // Хранение результатов расчётов: ранние и поздние сроки, резервы и т.д.
     const [results, setResults] = useState<{
