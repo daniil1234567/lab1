@@ -152,7 +152,16 @@ const GanttChart = () => {
                 "b10": ["b3"],
                 "b11": ["b2", "b5", "b6", "b10"],
             };
-
+            const nonCriticalArcs: { [key: string]: { a: number; b: number; reserve: number }[] } = {
+                "arc1": [{ a: 9, b: 1, reserve: 8 }],
+                "arc2": [{ a: 12, b: 8, reserve: 4 }],
+                "arc3": [{ a: 12, b: 9, reserve: 3 }],
+                "arc4": [{ a: 19, b: 14, reserve: 5 }],
+                "arc5": [{ a: 19, b: 15, reserve: 4 }],
+                "arc6": [{ a: 19, b: 14, reserve: 5 }],
+                "arc7": [{ a: 16, b: 7, reserve: 9 }],
+                "arc8": [{ a: 16, b: 6, reserve: 10 }],
+            };
             // Массивы для ранних и поздних сроков
             const earlyStart: { [key: string]: number } = {};
             const earlyFinish: { [key: string]: number } = {};
@@ -196,10 +205,10 @@ const GanttChart = () => {
             });
 
             // Рассчёт коэффициентов напряжённости для некритических задач
-            Object.keys(durations).forEach(task => {
-                if (totalReserves[task] > 0) {
-                    tensionCoefficients[task] = 1 - totalReserves[task] / durations[task]; // Коэффициент напряжённости = 1 - (резерв / продолжительность)
-                }
+            Object.keys(nonCriticalArcs).forEach(arc => {
+                const { a, reserve } = nonCriticalArcs[arc][0];
+                // Коэффициент напряжённости N(b) = 1 - (R(b) / a)
+                tensionCoefficients[arc] = 1 - reserve / a;
             });
 
             return {
